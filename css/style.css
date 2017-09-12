@@ -1,0 +1,19 @@
+body{
+font-family: 'Dosis', sans-serif;
+margin-top: 50px;
+margin-left: auto;
+margin-right: auto;
+text-align: center;
+background-image: url(..//img/city.jpg);
+background-size: cover;
+}
+
+a{
+color: white;
+
+}
+.nav{
+	margin-top: 20px;
+	background-color: rgba(0, 0, 0, 0.3);
+	padding: 15px;
+}

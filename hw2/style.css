@@ -1,0 +1,19 @@
+body{
+background-color: teal;
+    font-family: monaco;
+    font-size: 18px;
+}
+
+h1{
+    text-align: center;
+    color: white
+}
+p{
+    text-align: center;
+    color: darkslategray;
+    background-color: cornsilk;
+    padding: 7px;
+}
+a{
+    color: antiquewhite;
+}
