@@ -1,0 +1,19 @@
+body{
+    background-color: rgb(239, 199, 194);
+    font-family: Trebuchet MS;
+}
+
+h1{
+    text-align: center;
+    color: white;
+    font-size: 23px;
+}
+p{
+    text-align: center;
+    color: white;
+    background-color: #A89B9D;
+    padding: 7px;
+}
+a{
+    color: #B50030;
+}
