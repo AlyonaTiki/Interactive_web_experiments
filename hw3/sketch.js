@@ -21,7 +21,7 @@
   triangle(329, tp, 380, tp, 350, 210);
   triangle(329, 244.5, 380, 244.5, 360, 210);
   textSize(30);
-  fill(pink);
+  fill(pnk);
   text("ALYONA PERMINOVA", 160, 325, 300);
 
     }
