@@ -14,6 +14,7 @@ if (mouseX > width/2) {
 	} else {
 		fill(0,255,84);
 	}
+	
 /*up*/
 stroke(20,255,0);
 line(mouseX, mouseY, 40, 0);
@@ -47,6 +48,7 @@ stroke(255,27,0);
 line(mouseX, mouseY, 600, 0);
 stroke(255,0,0);
 line(mouseX, mouseY, width, 0);
+
 /*left*/
 stroke(0,255,84);
 line(mouseX, mouseY, 0, 0);
@@ -84,6 +86,4 @@ stroke(255,0,0);
 line(mouseX, mouseY, 0, height);
 
 ellipse(mouseX, mouseY - 10, 70, 70);
-
-
 }
