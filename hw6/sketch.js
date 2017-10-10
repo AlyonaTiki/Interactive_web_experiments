@@ -14,7 +14,7 @@ function draw() {
     background(wh);
   	noStroke();
 
-
+    /*logo*/
     fill(pnk);
     ellipse(290, 230, 140, 140);
     fill(wh);
@@ -28,13 +28,14 @@ function draw() {
     triangle(329, 244.5, 380, 244.5, 360, 210);
     textSize(30);
     fill(pnk);
-    text("ALYONA PERMINOVA", 160, 325, 300);
 
+    /*text and animation*/
+    text("ALYONA PERMINOVA", 160, 325, 300);
 		fill(wh);
     xpos = xpos + 2;
     rect(xpos, ypos, 270, sz);
 
-
+    /*rotation*/
     translate(100, 100);
 		rotate(radians(frameCount));
     fill(pnk);
@@ -45,16 +46,4 @@ function draw() {
 		rotate(radians(frameCount/3));
     fill(pnkLight);
     rect(0, 0, sz-5, sz-5);
-
-		/*translate(100, 100);
-		rotate(radians(frameCount));
-    fill(pnk);
-    rect(0, 0, sz, sz);
-		rotate(radians(frameCount/2));
-    fill(bl);
-    rect(0, 0, sz+5, sz+5);
-		rotate(radians(frameCount/3));
-    fill(pnkLight);
-    rect(0, 0, sz-5, sz-5);
-*/
 }
