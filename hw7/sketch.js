@@ -16,7 +16,7 @@ function setup() {
   var darkBrown = color(107, 58, 3);
 	  createCanvas(640, 480);
     background (pnk);
-    
+
     for (var x = 0; x < width; x += columnSizeBg) {
       //line(, 0, x, height)
       for (var y = 0; y < height; y += rowSizeBg) {
@@ -64,6 +64,7 @@ function setup() {
         ellipse(x+3, y+60, 5, 5)
         fill(pnk);
         ellipse(x+5, y+62, 5, 5)
+        
     }
   }
 }
