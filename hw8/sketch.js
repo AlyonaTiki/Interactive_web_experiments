@@ -3,6 +3,19 @@ var myFonts = [
 		'Gloria Hallelujah',
 		'Fascinate Inline'
 ];
+//var bases = [
+//    {
+//        base:"ice cream", 
+//        calories: 230
+//    },
+//    {
+//        
+//    }"milkshake", "frozen yogurt"];
+//
+//bases[0].base, bases[0].calories
+//
+//
+
 function setup() {
     createCanvas(518, 600)
     design();
