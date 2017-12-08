@@ -16,19 +16,19 @@ let scenes = {
                 img: "img/base1.png",
                 cal: 80,
                 x: 65,
-                y: 130
+                y: 160
             },
             {
                 img: "img/base2.png",
                 cal: 100,
                 x: 290,
-                y: 130
+                y: 160
             },
             {
                 img: "img/base3.png",
                 cal: 120,
                 x: 515,
-                y: 130
+                y: 160
             }
         ]
     },
@@ -66,7 +66,7 @@ let scenes = {
                 img: "img/top1.png",
                 cal: 30,
                 x: 65,
-                y: 10
+                y: 100
             },
             {
                 img: "img/top2.png",
@@ -231,11 +231,11 @@ function draw() {
 function menu(scene) {
     background(bg);
     fill(255);
-    textFont(font, 20);
-    fill(0);
-    image(ind, 65, 40);
+    textFont(font, 23);
+    image(ind, 75, 65);
     text(scenes[scene].title, 320, 38);
-    text("calories = " + (scenes["base"].cal + scenes["flavor"].cal + scenes["toppings"].cal), 30, 90);
+    fill(0);
+    text("calories = " + (scenes["base"].cal + scenes["flavor"].cal + scenes["toppings"].cal), 40, 60);
     btnBack.display();
     btnNext.display();
     btnReset.display();
