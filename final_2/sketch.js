@@ -3,14 +3,24 @@ let font;
 let backgroundColor;
 let bg, bg1;
 let state = 0;
+var circles = [];
+
+var numShapes = 20;
 let scenes = {
-    start:{
+    start: {
         nextScene: "base",
     },
     base: {
-        title: "Pick your base",
+        titles: [
+            {
+                text: "Pick your base",
+                x: 320,
+                y: 38
+            }
+        ],
         nextScene: "flavor",
         cal: 0,
+        indicator: "img/ind5.png",
         choices: [
             {
                 img: "img/base1.png",
@@ -33,57 +43,85 @@ let scenes = {
         ]
     },
     flavor: {
-        title: "Pick your flavor",
+        titles: [
+            {
+                text: "Pick your flavor",
+                x: 320,
+                y: 38
+            }
+        ],
         nextScene: "toppings",
         cal: 0,
+        indicator: "img/ind4.png",
         choices: [
             {
-                img: "img/top1.png",
-                cal: 30,
-                x: 65,
-                y: 100
+                img: "img/vanilla.png",
+                cal: 130,
+                x: 90,
+                y: 150
             },
             {
-                img: "img/top2.png",
-                cal: 35,
-                x: 290,
-                y: 100
+                img: "img/coconut.png",
+                cal: 135,
+                x: 315,
+                y: 150
             },
             {
-                img: "img/top3.png",
-                cal: 40,
-                x: 515,
-                y: 100
+                img: "img/mint.png",
+                cal: 140,
+                x: 540,
+                y: 150
+            },
+            {
+                img: "img/mango.png",
+                cal: 135,
+                x: 200,
+                y: 260
+            },
+            {
+                img: "img/lemon.png",
+                cal: 140,
+                x: 425,
+                y: 260
             }
         ]
     },
     toppings: {
-        title: "Pick your toppings",
+        titles: [
+            {
+                text: "Pick your toppings",
+                x: 320,
+                y: 38
+            },
+            {
+                text: "click to add sprinkles",
+                x: 400,
+                y: 200
+            },
+        ],
         nextScene: "calories",
+        indicator: "img/ind3.png",
         cal: 0,
         choices: [
             {
-                img: "img/top1.png",
-                cal: 30,
-                x: 65,
-                y: 100
+                img: "img/ice_1.png",
+                cal: 0,
+                x: 265,
+                y: 160
             },
-            {
-                img: "img/top2.png",
-                cal: 35,
-                x: 290,
-                y: 100
-            },
-            {
-                img: "img/top3.png",
-                cal: 40,
-                x: 515,
-                y: 100
-            }
         ]
     },
-    
+    calories: {
+        titles: "Here is your calories",
+        //        text: "click to add sprinkles",
+        nextScene: "activity",
+        indicator: "img/ind2.png",
+        cal: 0,
+
+    },
+
 };
+let sprinkles = 0;
 let currentScene = "start";
 //var buttons = [btnStart, btnNext, btnReset, btnRetry];
 let select_sfx;
@@ -93,10 +131,14 @@ function preload() {
     select_sfx = loadSound("sfx/select3.wav");
     bg = loadImage("img/bg.png");
     bg1 = loadImage("img/bg1.png");
-    ind = loadImage("img/ind.png")
+
 
     for (var s in scenes) {
         let scene = scenes[s];
+        if (scene.indicator) {
+            scene.indicatorImage = loadImage(scene.indicator);
+        }
+
         for (var c in scene.choices) {
             let choice = scene.choices[c];
             choice.button = new cItems(choice.img, choice.x, choice.y, choice.cal, s);
@@ -114,6 +156,7 @@ function setup() {
     btnNext = new cButtons("img/next.png", "Next", 640, 420);
     btnReset = new cButtons("img/reset.png", "Reset", 340, 420);
     btnRetry = new cButtons("img/retry.png", "Retry", 400, 250);
+    btnClick = new cButtons("img/click_here.png", "Click_here", 340, 300);
 }
 
 
@@ -150,11 +193,19 @@ function cButtons(tImg, tName, tPosX, tPosY) {
             if (this.name == "Retry") {
                 state = 1;
             }
+            if (this.name == "Click_here") {
+                for (var i = 10; i < numShapes; i++) {
+                    var x = new Circle();
+                    x.addCal();
+                    circles.push(x);
+                       
+                }
+                
+            }
         }
     }
 }
-
-////items object
+//items object
 function cItems(tImg, tPosX, tPosY, tCal, s) {
     //Properties
     this.img = loadImage(tImg);
@@ -178,24 +229,18 @@ function cItems(tImg, tPosX, tPosY, tCal, s) {
 }
 
 function mouseReleased() {
-    //    for (var i = 0; i < buttons.length; i++) {
-    //        console.log(buttons[i])
-    //        buttons[i].clicked();
-    //    }
-   
-    if (scenes[currentScene].choices ) {
+    if (scenes[currentScene].choices) {
         scenes[currentScene].choices.forEach(function (choice) {
             choice.button.clicked();
         });
     }
-    
-    
+
     btnStart.clicked();
     btnNext.clicked();
     btnBack.clicked();
     btnReset.clicked();
     btnRetry.clicked();
-
+    btnClick.clicked();
 }
 
 function start() {
@@ -212,10 +257,13 @@ function draw() {
         if (currentScene != "base") currentScene = "base";
         menu("base"); // menu_base(); //base
     } else if (state == 2) {
+        if (currentScene != "flavor") currentScene = "flavor";
         menu("flavor"); //menu_flavor(); //flavor
     } else if (state == 3) {
+        if (currentScene != "toppings") currentScene = "toppings";
         menu("toppings"); //menu_toppings(); //toppings
     } else if (state == 4) {
+        if (currentScene != "calories") currentScene = "calories";
         menu("calories"); //menu_calories(); //calories
     } else if (state == 5) {
         menu("activity"); //menu_activity(); //activity
@@ -224,91 +272,76 @@ function draw() {
     } else if (state == 7) {
         retry(); // try again
     }
+    //debug(sprinkles);
 }
 
 
 
 function menu(scene) {
     background(bg);
+    //    addToping() 
     fill(255);
     textFont(font, 23);
-    image(ind, 75, 65);
-    text(scenes[scene].title, 320, 38);
+    image(scenes[scene].indicatorImage, 65, 75);
+    for (let i = 0; i < scenes[scene].titles.length; i++) {
+        text(scenes[scene].titles[i].text, 320, 38);
+    }
+
+    //    text(scenes[toppings].instructions, 320, 38);
     fill(0);
-    text("calories = " + (scenes["base"].cal + scenes["flavor"].cal + scenes["toppings"].cal), 40, 60);
+    text("calories = " + (scenes["base"].cal + scenes["flavor"].cal + scenes["toppings"].cal + sprinkles), 40, 60);
     btnBack.display();
     btnNext.display();
     btnReset.display();
+
+    if (scene == "toppings") {
+        btnClick.display();
+        for (var i = 0; i < circles.length; i++) {
+            circles[i].display();
+        }
+    }
     scenes[scene].choices.forEach(function (choice) {
         choice.button.display();
     });
 }
 
-//function menu(scene) {
-//    background(bg);
-//    fill(0);
-//    textFont(font, 20);
-//    //text(scenes[scene].title, 320, 38);
-//    text("calories = " + (scenes["base"].cal + scenes["toppings"].cal), 30, 90);
-//    btnBack.display();
-//    btnNext.display();
-//    btnReset.display();
-//    scenes[scene].choices.forEach(function (choice) {
-//        choice.button.display();
-//});}
-//            
-//function menu(scene) {
-//    background(bg);
-//    fill(255);
-//    textSize(24);
-//    textFont("sans-serif");
-//    text(scenes[scene].title, 320, 38);
-//    text("calories = " + (scenes["base"].cal + scenes["toppings"].cal), 30, 90);
-//    
-//    btnBack.display();
-//    btnNext.display();
-//    btnReset.display();
-//        scenes[scene].choices.forEach(function (choice) {
-//        choice.button.display();
-//});}
-
-//function menu_calories() {
-//    background(bg);
-//    fill(255);
-//    textSize(24);
-//    textFont("sans-serif");
-//    text("calories", 30, 50);
-//    text("calories = " + calories, 30, 90);
-//    btnBack.display();
-//    btnNext.display();
-//    btnReset.display();
-//}
-//
-//function menu_activity() {
-//    background(bg);
-//    fill(255);
-//    textSize(24);
-//    textFont("sans-serif");
-//    text("pick an activity", 30, 50);
-//    text("calories = " + calories, 30, 90);
-//    btnBack.display();
-//    btnNext.display();
-//    btnReset.display();
-//}
-//
-//function menu_result() {
-//    background(bg);
-//    fill(255);
-//    textSize(24);
-//    textFont("sans-serif");
-//    text("result", 30, 50);
-//    btnBack.display();
-//    btnNext.display();
-//    btnReset.display();
-//}
-
 function retry() {
     background(backgroundColor);
     btnRetry.display();
+}
 
+function Circle() {
+    this.x = random(320, 480);
+    this.y = random(160, 300);
+    this.clr = random(["red", "black", "green"]);
+    this.size = random(3, 6);
+    this.cal = 20;
+    this.addCal = function (){
+        sprinkles = + this.cal;
+    }
+    noStroke();
+    this.display = function () {
+        fill(this.clr);
+        ellipse(this.x, this.y, this.size);
+    }
+}
+
+//    noStroke();
+//    for (var i = 10; i < numShapes; i++) {
+//        fill(232, 41, 59);
+//        ellipse(pX1, pY1, 3, 3);
+//        fill(6, 219, 84);
+//        ellipse(pX2, pY2, 6, 6);
+//        fill(64, 222, 247);
+//        ellipse(pX3, pY3, 6, 6);
+//        fill(249, 208, 0);
+//        ellipse(pX4, pY4, 6, 6);
+//        fill(249, 9, 73);
+//        ellipse(pX, pY, 4, 4);
+//        fill(2, 122, 226);
+//        ellipse(pX5, pY5, 4, 4);
+//    }
+//}
+function debug(deb){
+   console.log(deb);
 }
