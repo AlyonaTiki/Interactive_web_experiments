@@ -13,9 +13,7 @@ let scenes = {
     base: {
         titles: [
             {
-                text: "Pick your base",
-                x: 320,
-                y: 38
+                text: "Pick your base"
             }
         ],
         nextScene: "flavor",
@@ -45,9 +43,7 @@ let scenes = {
     flavor: {
         titles: [
             {
-                text: "Pick your flavor",
-                x: 320,
-                y: 38
+                text: "Pick your flavor"
             }
         ],
         nextScene: "toppings",
@@ -61,7 +57,7 @@ let scenes = {
                 y: 150
             },
             {
-                img: "img/coconut.png",
+                img: "img/green.png",
                 cal: 135,
                 x: 315,
                 y: 150
@@ -79,7 +75,7 @@ let scenes = {
                 y: 260
             },
             {
-                img: "img/lemon.png",
+                img: "img/coffe.png",
                 cal: 140,
                 x: 425,
                 y: 260
@@ -89,41 +85,46 @@ let scenes = {
     toppings: {
         titles: [
             {
-                text: "Pick your toppings",
-                x: 320,
-                y: 38
-            },
-            {
-                text: "click to add sprinkles",
-                x: 400,
-                y: 200
-            },
+                text: "Add toppings"
+            }
         ],
         nextScene: "calories",
         indicator: "img/ind3.png",
         cal: 0,
         choices: [
             {
-                img: "img/ice_1.png",
+                img: "img/base_sp.png",
                 cal: 0,
-                x: 265,
-                y: 160
+                x: 365,
+                y: 157
             },
         ]
     },
     calories: {
-        titles: "Here is your calories",
-        //        text: "click to add sprinkles",
-        nextScene: "activity",
+        titles: [
+            {
+                text: "Your calories"
+            }
+        ],
+        nextScene: "result",
         indicator: "img/ind2.png",
         cal: 0,
+        choices: [
+            {
+                img: "img/kcal.png",
+                cal: 0,
+                x: 130,
+                y: 240
+            }
+        ]
 
     },
-
+    retry: {
+        nextScene: "base",
+    },
 };
 let sprinkles = 0;
 let currentScene = "start";
-//var buttons = [btnStart, btnNext, btnReset, btnRetry];
 let select_sfx;
 
 function preload() {
@@ -151,12 +152,12 @@ function setup() {
     createCanvas(800, 500);
     background(bg);
     //buttons
-    btnStart = new cButtons("img/start.png", "Start", 340, 240);
+    btnStart = new cButtons("img/start.png", "Start", 340, 150);
     btnBack = new cButtons("img/back.png", "Back", 40, 420);
     btnNext = new cButtons("img/next.png", "Next", 640, 420);
     btnReset = new cButtons("img/reset.png", "Reset", 340, 420);
-    btnRetry = new cButtons("img/retry.png", "Retry", 400, 250);
-    btnClick = new cButtons("img/click_here.png", "Click_here", 340, 300);
+    btnRetry = new cButtons("img/retry.png", "Retry", 340, 420);
+    btnClick = new cButtons("img/add.png", "Click_here", 130, 230);
 }
 
 
@@ -198,9 +199,10 @@ function cButtons(tImg, tName, tPosX, tPosY) {
                     var x = new Circle();
                     x.addCal();
                     circles.push(x);
-                       
+
+
                 }
-                
+
             }
         }
     }
@@ -222,7 +224,7 @@ function cItems(tImg, tPosX, tPosY, tCal, s) {
         select_sfx.play();
         //Calculate clicable position
         if (mouseX >= this.PosX && mouseX <= this.PosX + 244 && mouseY >= this.PosY && mouseY <= this.PosY + 244) {
-            // calories += this.cal;
+           
             scenes[s].cal = this.cal;
         }
     }
@@ -246,8 +248,11 @@ function mouseReleased() {
 function start() {
     background(bg1);
     btnStart.display();
+    textFont(font, 25);
+    fill(81, 4, 22);
+    text("Ice cream customizer + Calories calculator", 170, 260)
     textFont(font, 20);
-    fill(0);
+    text("Press start to begin", 300, 300)
 }
 
 function draw() {
@@ -280,29 +285,48 @@ function draw() {
 function menu(scene) {
     background(bg);
     //    addToping() 
-    fill(255);
+    fill(81, 4, 22);
     textFont(font, 23);
-    image(scenes[scene].indicatorImage, 65, 75);
+    image(scenes[scene].indicatorImage, 185, 75);
     for (let i = 0; i < scenes[scene].titles.length; i++) {
-        text(scenes[scene].titles[i].text, 320, 38);
+        text(scenes[scene].titles[i].text, 330, 38);
+    }
+   
+    text("calories = " + (scenes["base"].cal + scenes["flavor"].cal + sprinkles), 50, 60);
+
+    if (scene == "base") {
+
+        btnNext.display();
+        btnReset.display();
     }
 
-    //    text(scenes[toppings].instructions, 320, 38);
-    fill(0);
-    text("calories = " + (scenes["base"].cal + scenes["flavor"].cal + scenes["toppings"].cal + sprinkles), 40, 60);
+if (scene == "flavor") {
     btnBack.display();
     btnNext.display();
     btnReset.display();
-
-    if (scene == "toppings") {
-        btnClick.display();
-        for (var i = 0; i < circles.length; i++) {
-            circles[i].display();
-        }
+}
+if (scene == "toppings") {
+    btnBack.display();
+    btnNext.display();
+    btnReset.display();
+    btnClick.display();
+    for (var i = 0; i < circles.length; i++) {
+        circles[i].display();
     }
-    scenes[scene].choices.forEach(function (choice) {
-        choice.button.display();
-    });
+}
+if (scene == "calories") {
+    text("suggestions how to burn calories", 200, 190)
+    textFont(font, 50);
+    text("" + (scenes["base"].cal + scenes["flavor"].cal + sprinkles), 230, 300);
+    textFont(font, 23);
+    btnRetry.display();
+    btnBack.display();
+}
+
+
+scenes[scene].choices.forEach(function (choice) {
+    choice.button.display();
+});
 }
 
 function retry() {
@@ -311,13 +335,20 @@ function retry() {
 }
 
 function Circle() {
-    this.x = random(320, 480);
-    this.y = random(160, 300);
-    this.clr = random(["red", "black", "green"]);
-    this.size = random(3, 6);
+    c1 = color(232, 41, 59);
+    c2 = color(6, 219, 84);
+    c3 = color(64, 222, 247);
+    c4 = color(249, 208, 0);
+    c5 = color(132, 64, 33);
+    c6 = color(2, 122, 226);
+    c7 = color(255, 73, 122);
+    this.x = random(420, 610);
+    this.y = random(165, 390);
+    this.clr = random([c1, c2, c3, c4, c5, c6, c7]);
+    this.size = random(2, 6);
     this.cal = 20;
-    this.addCal = function (){
-        sprinkles = + this.cal;
+    this.addCal = function () {
+        sprinkles += this.cal;
     }
     noStroke();
     this.display = function () {
@@ -326,22 +357,6 @@ function Circle() {
     }
 }
 
-//    noStroke();
-//    for (var i = 10; i < numShapes; i++) {
-//        fill(232, 41, 59);
-//        ellipse(pX1, pY1, 3, 3);
-//        fill(6, 219, 84);
-//        ellipse(pX2, pY2, 6, 6);
-//        fill(64, 222, 247);
-//        ellipse(pX3, pY3, 6, 6);
-//        fill(249, 208, 0);
-//        ellipse(pX4, pY4, 6, 6);
-//        fill(249, 9, 73);
-//        ellipse(pX, pY, 4, 4);
-//        fill(2, 122, 226);
-//        ellipse(pX5, pY5, 4, 4);
-//    }
-//}
-function debug(deb){
-   console.log(deb);
+function debug(deb) {
+    console.log(deb);
 }
