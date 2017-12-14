@@ -1,10 +1,8 @@
-let calories = 0;
 let font;
 let backgroundColor;
 let bg, bg1;
 let state = 0;
 var circles = [];
-
 var numShapes = 20;
 let scenes = {
     start: {
@@ -113,8 +111,8 @@ let scenes = {
             {
                 img: "img/kcal.png",
                 cal: 0,
-                x: 130,
-                y: 240
+                x: 310,
+                y: 220
             }
         ]
 
@@ -187,6 +185,7 @@ function cButtons(tImg, tName, tPosX, tPosY) {
             }
             if (this.name == "Reset") {
                 state = 0;
+                cal
             }
             if (this.name == "Start") {
                 state = 1;
@@ -236,13 +235,14 @@ function mouseReleased() {
             choice.button.clicked();
         });
     }
-
     btnStart.clicked();
     btnNext.clicked();
     btnBack.clicked();
     btnReset.clicked();
     btnRetry.clicked();
+    if (scene = "toppings") {
     btnClick.clicked();
+    }
 }
 
 function start() {
@@ -270,17 +270,11 @@ function draw() {
     } else if (state == 4) {
         if (currentScene != "calories") currentScene = "calories";
         menu("calories"); //menu_calories(); //calories
-    } else if (state == 5) {
-        menu("activity"); //menu_activity(); //activity
-    } else if (state == 6) {
-        menu("result"); //menu_result(); //result
-    } else if (state == 7) {
-        retry(); // try again
-    }
+    
     //debug(sprinkles);
 }
 
-
+}
 
 function menu(scene) {
     background(bg);
@@ -292,6 +286,7 @@ function menu(scene) {
         text(scenes[scene].titles[i].text, 330, 38);
     }
    
+    console.log("base", scenes["base"].cal, "flavor", scenes["flavor"].cal, sprinkles)
     text("calories = " + (scenes["base"].cal + scenes["flavor"].cal + sprinkles), 50, 60);
 
     if (scene == "base") {
@@ -315,9 +310,9 @@ if (scene == "toppings") {
     }
 }
 if (scene == "calories") {
-    text("suggestions how to burn calories", 200, 190)
+    
     textFont(font, 50);
-    text("" + (scenes["base"].cal + scenes["flavor"].cal + sprinkles), 230, 300);
+    text("" + (scenes["base"].cal + scenes["flavor"].cal + sprinkles), 460, 280);
     textFont(font, 23);
     btnRetry.display();
     btnBack.display();
@@ -346,7 +341,7 @@ function Circle() {
     this.y = random(165, 390);
     this.clr = random([c1, c2, c3, c4, c5, c6, c7]);
     this.size = random(2, 6);
-    this.cal = 20;
+    this.cal = 2;
     this.addCal = function () {
         sprinkles += this.cal;
     }
@@ -357,6 +352,4 @@ function Circle() {
     }
 }
 
-function debug(deb) {
-    console.log(deb);
-}
+
