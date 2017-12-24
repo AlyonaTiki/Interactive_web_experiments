@@ -185,7 +185,7 @@ function cButtons(tImg, tName, tPosX, tPosY) {
             }
             if (this.name == "Reset") {
                 state = 0;
-                cal
+                
             }
             if (this.name == "Start") {
                 state = 1;
