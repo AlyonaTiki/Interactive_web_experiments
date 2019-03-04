@@ -1,7 +1,7 @@
 # Interactive_web_experiments using p5.js library
 # author: Alyona Karmazin(Perminova) 
-# date: 2017
-# all the experiments are my scholl assignments. 
+# date: 2018
+# all the experiments are my school assignments  
 #Homework 1 - Self Portrait using
 #Homework 2 - Static drawing 
 #Homework 3 - Logo
